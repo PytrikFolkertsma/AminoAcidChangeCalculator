@@ -28,7 +28,7 @@ public class Chromosome {
     protected static HashMap <String, String> chromosomes = new HashMap();
     
     protected void readFastaFile(){
-        Path path = Paths.get("/commons/student/2014-2015/Thema11/NGnodde/PotatoGenome/chr1.fasta"); 
+        Path path = Paths.get("/commons/student/2014-2015/Thema11/NGnodde/PotatoGenome/chr1test.fasta"); 
         List desc = new ArrayList();
         List seq = new ArrayList();
 

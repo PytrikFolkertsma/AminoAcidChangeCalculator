@@ -17,7 +17,7 @@ public class Codon {
     protected String firstNucleotide;
     protected String secondNucleotide;
     protected String thirdNucleotide;
-    protected String aminoAcid;
+    protected char aminoAcid;
     
     protected void getNucleotides(String chr){
         firstNucleotide = Character.toString(Chromosome.chromosomes.get(chr).charAt(firstNucChrPos));
@@ -25,7 +25,7 @@ public class Codon {
         thirdNucleotide = Character.toString(Chromosome.chromosomes.get(chr).charAt(thirdNucChrPos));
     }
     
-    protected void getAminoAcid(){
-        aminoAcid = CodontableGenerator.table.get(firstNucleotide + secondNucleotide + thirdNucleotide).toString();
+    protected void setAminoAcid(){
+        aminoAcid = CodontableGenerator.table.get(firstNucleotide + secondNucleotide + thirdNucleotide);
     }
 }

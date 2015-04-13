@@ -39,7 +39,7 @@ public class AminoAcidChangeCalculator {
                 //System.out.println(line);
                 String lineElements [] = line.split(";");
                 if (lineElements[3].equals("1") || lineElements[3].equals("0")){
-                    //System.out.println("SNV");
+                    // if the line contains an SNV (length of 0 or 1)
                     SNV snv = new SNV();
                     snv.setId(Integer.parseInt(lineElements[0]));
                     snv.setmRnaPos(Integer.parseInt(lineElements[1]));
@@ -49,7 +49,16 @@ public class AminoAcidChangeCalculator {
                     snv.setChr(lineElements[6]);
                     snv.setChrPos(Integer.parseInt(lineElements[7]));
                     
-                    snv.createCodon();
+                    System.out.println(calculateSnpCodonPosition(snv.getmRnaPos()));
+                    snv.createSNPcodon(calculateSnpCodonPosition(snv.getmRnaPos()));
+                    
+                    System.out.println("Reference: " + snv.getReference());
+                    System.out.println("Variants: " + snv.getVariants());
+                    
+                    System.out.println("Reference amino acid: " + snv.getReferenceAminoAcid());
+                    System.out.println("SNP amino acid: " + snv.getSnpAminoAcids());
+                    System.out.println("\n \n");
+                    
                 }
                 else if (Integer.parseInt(lineElements[3]) > 1){
                     //System.out.println("MNV");
@@ -62,6 +71,18 @@ public class AminoAcidChangeCalculator {
             }
         } catch(IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public int calculateSnpCodonPosition(int mrnaPos) {
+        if (mrnaPos % 3 == 1) {
+            return 1;
+        } else if (mrnaPos % 3 == 2) {
+            return 2;
+        } else if (mrnaPos % 3 == 0) {
+            return 3;
+        } else {
+            return -1;
         }
     }
 
