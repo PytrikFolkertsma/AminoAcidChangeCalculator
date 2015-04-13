@@ -8,8 +8,8 @@ package nl.bioinf.pfolkertsma.aminoacidchangecalculator;
 
 /**
  *
- * @author pfolkertsma & ngnodde
+ * @author pfolkertsma
  */
-public class InDel {
+public class MNV {
     
 }

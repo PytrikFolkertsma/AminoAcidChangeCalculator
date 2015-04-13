@@ -11,6 +11,7 @@ package nl.bioinf.pfolkertsma.aminoacidchangecalculator;
  */
 import java.util.HashMap;
 
+
 public class CodontableGenerator {
 
     static HashMap table = new HashMap();
@@ -18,10 +19,6 @@ public class CodontableGenerator {
     public String getAminoAcid(String codon) {
         String uCodon = codon.toUpperCase();
         return (String) table.get(uCodon);
-    }
-
-    public void CodontableGenerator() {
-        initializeTable();
     }
 
     protected static void initializeTable() {
