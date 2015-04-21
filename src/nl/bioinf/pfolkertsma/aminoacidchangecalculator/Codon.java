@@ -28,4 +28,8 @@ public class Codon {
     protected void setAminoAcid(){
         aminoAcid = CodontableGenerator.table.get(firstNucleotide + secondNucleotide + thirdNucleotide);
     }
+    
+    public String toString(){
+        return firstNucleotide + secondNucleotide + thirdNucleotide;
+    }
 }

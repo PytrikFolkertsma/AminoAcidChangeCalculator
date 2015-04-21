@@ -6,6 +6,7 @@
 package nl.bioinf.pfolkertsma.aminoacidchangecalculator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -157,67 +158,62 @@ public class SNV {
         this.snpAminoAcids = snpAminoAcids;
     }
 
-    protected Codon createCodon(int x, String reference) {
+    protected Codon createCodon(int x) {
         Codon codon = new Codon();
         codon.firstNucChrPos = this.chrPos - x;
         codon.secondNucChrPos = this.chrPos - x + 1;
         codon.thirdNucChrPos = this.chrPos - x + 2;
-
-//        if (reference.equals("-") && x == 1){
-//            codon.firstNucChrPos = this.chrPos -x +2;
-//            codon.secondNucChrPos = this.chrPos -x + 3;    
-//            codon.thirdNucChrPos = this.chrPos -x + 4;
-//        } else if (reference.equals("-") && x == 2){
-//            codon.secondNucChrPos = this.chrPos -x + 3;
-//            codon.thirdNucChrPos = this.chrPos -x + 4;
-//        } else if (reference.equals("-") && x == 3){
-//            codon.thirdNucChrPos = this.chrPos -x + 4;
-//        }
         codon.getNucleotides(chr);
         codon.setAminoAcid();
         setReferenceAminoAcid(codon.aminoAcid);
         return codon;
     }
 
-    protected void createSNPcodon(int x) {
-        Codon codonRef = createCodon(x, reference);
+    protected List createSNPcodon(int x) {
+        Codon codonRef = createCodon(x);
+        List<String> codonsSnp = new ArrayList<>();
         ArrayList<Character> snpAA = new ArrayList();
-        System.out.println("Referentiecodon: " + codonRef.firstNucleotide + codonRef.secondNucleotide + codonRef.thirdNucleotide);
+        System.out.println("Reference codon: " + codonRef.toString());
         for (String variant : variants) {
             Codon codonSnp = new Codon();
             codonSnp = codonRef;
-
-            // check if reference = "-" (insertion of SNP)
+            // check if reference = "-" (insertion of nucleotide (SNP))
             if (reference.equals("-")) {
                 if (x == 1) {
-                    codonSnp.secondNucChrPos = this.chrPos -x ;
-                    codonSnp.thirdNucChrPos = this.chrPos -x + 1;
+                    codonSnp.secondNucChrPos = this.chrPos - 1;
+                    codonSnp.thirdNucChrPos = this.chrPos;
                     codonSnp.getNucleotides(chr);
                     codonSnp.firstNucleotide = variant;
-                    codonSnp.setAminoAcid();
-                    System.out.println("SNP codon 1: " + codonSnp.firstNucleotide + codonSnp.secondNucleotide + codonSnp.thirdNucleotide);
                 } else if (x == 2) {
-                    codonRef.thirdNucChrPos = this.chrPos -x;
+                    codonRef.thirdNucChrPos = this.chrPos - 1;
                     codonSnp.getNucleotides(chr);
                     codonSnp.secondNucleotide = variant;
-                    codonSnp.setAminoAcid();
-                    System.out.println("SNP codon 2: " + codonSnp.firstNucleotide + codonSnp.secondNucleotide + codonSnp.thirdNucleotide);
                 } else if (x == 3) {
                     codonRef.thirdNucChrPos = this.chrPos;
                     codonSnp.thirdNucleotide = variant;
-                    codonSnp.setAminoAcid();
-                    System.out.println("SNP codon 3: " + codonSnp.firstNucleotide + codonSnp.secondNucleotide + codonSnp.thirdNucleotide);
                 }
-            // check if variant = "-" (deletion of SNP)
+                codonSnp.setAminoAcid();
+                snpAA.add(codonSnp.aminoAcid);
+                System.out.println("SNPcodon: " + codonSnp.toString());
+                codonsSnp.add(codonSnp.toString());
+                // check if variant = "-" (deletion of nucleotide)
             } else if (variant.equals("-")) {
                 if (x == 1) {
-                    // codonSnp.secondNucChrPos = this.chrPos;
-                    //
-                    //
-                    //
-                    //
+                    codonSnp.firstNucChrPos = this.chrPos;
+                    codonSnp.secondNucChrPos = this.chrPos + 1;
+                    codonSnp.thirdNucChrPos = this.chrPos + 2;
+                } else if (x == 2) {
+                    codonSnp.secondNucChrPos = this.chrPos;
+                    codonSnp.thirdNucChrPos = this.chrPos + 1;
+                } else if (x == 3) {
+                    codonSnp.thirdNucChrPos = this.chrPos;
                 }
-                
+                codonSnp.getNucleotides(chr);
+                codonSnp.setAminoAcid();
+                snpAA.add(codonSnp.aminoAcid);
+                System.out.println("SNPcodon: " + codonSnp.toString());
+                codonsSnp.add(codonSnp.toString());
+                // if there are no insertions/deletions, change the reference to the variant.
             } else {
                 if (x == 1) {
                     codonSnp.firstNucleotide = variant; // the SNP is on the first position of the codon.
@@ -228,9 +224,11 @@ public class SNV {
                 }
                 codonSnp.setAminoAcid();
                 snpAA.add(codonSnp.aminoAcid);
-                System.out.println("SNPcodon: " + codonSnp.firstNucleotide + codonSnp.secondNucleotide + codonSnp.thirdNucleotide);
+                System.out.println("SNPcodon: " + codonSnp.toString());
+                codonsSnp.add(codonSnp.toString());
             }
         }
         setSnpAminoAcids(snpAA);
+        return codonsSnp;
     }
 }

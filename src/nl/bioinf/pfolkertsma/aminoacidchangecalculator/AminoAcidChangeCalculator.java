@@ -49,15 +49,15 @@ public class AminoAcidChangeCalculator {
                     snv.setChr(lineElements[6]);
                     snv.setChrPos(Integer.parseInt(lineElements[7]));
                     
-                    System.out.println(calculateSnpCodonPosition(snv.getmRnaPos()));
+                    System.out.println("Codon position: " + calculateSnpCodonPosition(snv.getmRnaPos()));
                     snv.createSNPcodon(calculateSnpCodonPosition(snv.getmRnaPos()));
                     
                     System.out.println("Reference: " + snv.getReference());
-                    System.out.println("Variants: " + snv.getVariants());
+                    System.out.println("Variants: " + snv.getVariants()[0]);
                     
                     System.out.println("Reference amino acid: " + snv.getReferenceAminoAcid());
                     System.out.println("SNP amino acid: " + snv.getSnpAminoAcids());
-                    System.out.println("\n \n");
+                    System.out.println("\n");
                     
                 }
                 else if (Integer.parseInt(lineElements[3]) > 1){
