@@ -24,11 +24,16 @@ public class AminoAcidChangeCalculator {
     }
 
     public void start() {
-        Chromosome chr = new Chromosome();
-        chr.readFastaFile();
-        chr.createChromosomeHashmap();
-        CodontableGenerator.initializeTable();
-        csvFileReader();
+        CDS cds = new CDS();
+        cds.readFastaFile();
+        cds.createCdsHashmap();
+        
+        LoginDAO dao = DAOfactory.createMysqlDAO("pfolkertsma", "FEKE86nk", "jdbc:mysql://mysql.bin/Potato2");
+        //Chromosome chr = new Chromosome();
+        //chr.readFastaFile();
+        //chr.createChromosomeHashmap();
+        //CodontableGenerator.initializeTable();
+        //csvFileReader();
         
     }
 
