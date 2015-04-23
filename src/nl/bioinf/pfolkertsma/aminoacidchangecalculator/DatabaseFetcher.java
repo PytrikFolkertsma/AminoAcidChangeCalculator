@@ -8,9 +8,6 @@ package nl.bioinf.pfolkertsma.aminoacidchangecalculator;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  *
@@ -34,21 +31,6 @@ public class DatabaseFetcher {
         
         
     protected void getDmcId() throws IOException{
-        try {
-            String sql = "SELECT cds_id FROM cds_mrna_parents WHERE m_rna_id=?";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, "PGSC0003DMT400000001");
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                String dmcId = rs.getString("cds_id");
-                System.out.println(dmcId);
-                //return "";
-            } else {
-                throw new IllegalArgumentException("No cds_id for this m_rna_id is found.");
-            }
-        } catch (SQLException ex) {
-            throw new IOException(ex);
-        }
         
     }
     

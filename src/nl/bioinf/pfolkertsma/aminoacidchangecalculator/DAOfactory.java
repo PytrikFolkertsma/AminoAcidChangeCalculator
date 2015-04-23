@@ -6,6 +6,8 @@
 
 package nl.bioinf.pfolkertsma.aminoacidchangecalculator;
 
+import java.io.IOException;
+
 /**
  *
  * @author pfolkertsma
@@ -15,9 +17,14 @@ public class DAOfactory {
     public static final LoginDAO createMysqlDAO(
             String user,
             String pass,
-            String url) {
-        LoginDAO dao = new LoginDAO();
-        dao.connect(user, pass, url);
-        return dao;
+            String url) throws IOException {
+        try {
+            LoginDAO dao = new LoginDAO();
+            dao.connect(user, pass, url);
+            return dao;
+        } catch (ClassNotFoundException ex) {
+            throw new IOException("", ex);
+        }
+        
     }
 }
